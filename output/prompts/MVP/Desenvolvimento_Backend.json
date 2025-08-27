@@ -1,0 +1,4 @@
+{
+  "positivo": "\"Foque em endpoints que entreguem valor direto ao usuário. Lógica simples, rápida de ajustar.\"",
+  "negativo": "\"Evite overengineering ou antecipar necessidades complexas.\""
+}

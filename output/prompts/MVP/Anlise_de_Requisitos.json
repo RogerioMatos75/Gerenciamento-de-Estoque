@@ -1,0 +1,4 @@
+{
+  "positivo": "\"Descubra a hipótese principal a ser validada. Reduza o escopo ao mínimo necessário para testar aceitação.\"",
+  "negativo": "\"Não tente antecipar todas as features. Não busque perfeição agora.\""
+}
