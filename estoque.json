@@ -6,7 +6,7 @@
         "quantidade": 9,
         "estoque_minimo": 10,
         "id": 1,
-        "alert_message": "ATENÇÃO: Estoque de Camiseta Básica Branca (9) está abaixo ou igual ao mínimo (10)!"
+        "alert_message": "Alerta: Estoque baixo! A quantidade atual (9) é menor ou igual ao mínimo (10)."
     },
     {
         "nome": "Caneca Personalizada Gato",
@@ -27,11 +27,11 @@
         "alert_message": null
     },
     {
-        "nome": "Moleton do Corinthinas",
-        "categoria": "Esportes",
+        "nome": "Moleton do Corinthinas Style 90",
+        "categoria": "Esportes Retrô",
         "preco": 250.0,
-        "quantidade": 30,
-        "estoque_minimo": 5,
+        "quantidade": 40,
+        "estoque_minimo": 10,
         "id": 4,
         "alert_message": null
     }

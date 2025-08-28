@@ -57,6 +57,18 @@
         </div>
         <div class="card">
             <h2>Lista de Produtos</h2>
+            <form id="filter-form" class="filter-form">
+                <div class="filter-group">
+                    <input type="text" id="filter-nome" name="filter-nome" placeholder="Filtrar por nome...">
+                </div>
+                <div class="filter-group">
+                    <input type="text" id="filter-categoria" name="filter-categoria" placeholder="Filtrar por categoria...">
+                </div>
+            </form>
+            <div class="report-actions">
+                <button type="button" id="btn-baixo-estoque" class="btn btn-report">Ver Relatório de Estoque Baixo</button>
+                <button type="button" id="btn-ver-todos" class="btn btn-secondary hidden">Ver Todos os Produtos</button>
+            </div>
             <div class="table-wrapper">
                 <table id="product-table">
                     <thead>

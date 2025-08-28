@@ -4,24 +4,25 @@ Este projeto é um Sistema de Gerenciamento de Estoque simplificado, desenvolvid
 
 ## Funcionalidades Implementadas
 
-Até o momento, as seguintes funcionalidades foram implementadas:
-
-*   **Cadastro de Produtos:**
-    *   Adicionar novos produtos com ID automático, nome, categoria, preço, quantidade e estoque mínimo.
+*   **CRUD Completo de Produtos:**
+    *   **Adicionar** novos produtos com ID automático, nome, categoria, preço, quantidade e estoque mínimo.
+    *   **Editar** os dados de produtos existentes através de um formulário dinâmico.
+    *   **Remover** produtos do estoque com diálogo de confirmação.
 *   **Controle de Estoque:**
-    *   Registrar entrada de produtos.
-    *   Registrar saída de produtos (com validação para não permitir estoque negativo).
-    *   Atualização automática da quantidade em estoque.
-    *   Emissão de alerta quando a quantidade de um produto está abaixo ou igual ao seu estoque mínimo.
-*   **Consulta de Produtos:**
-    *   Listar todos os produtos.
-    *   Buscar produtos por nome (busca parcial e case-insensitive).
-    *   Obter detalhes de um produto específico por ID.
+    *   Registrar **entrada** e **saída** de produtos de forma simples.
+    *   Atualização automática da quantidade em estoque após cada movimentação.
+    *   Emissão de **alerta visual** na interface quando a quantidade de um produto atinge o estoque mínimo.
+*   **Consulta e Relatórios:**
+    *   Listagem completa e paginada de todos os produtos.
+    *   Busca dinâmica e em tempo real por **nome** e/ou **categoria**.
+    *   Obtenção de detalhes de um produto específico.
+    *   **Relatório** dedicado para produtos com baixo estoque.
 *   **Persistência de Dados:**
-    *   Os dados são persistidos em um arquivo `estoque.json`.
+    *   Os dados são salvos e carregados a partir de um arquivo `estoque.json`, garantindo a persistência entre as sessões.
 *   **Interface de Usuário (Dashboard):**
-    *   Dashboard web interativo com formulário de cadastro e controle de estoque.
-    *   Tabela de listagem de produtos com detalhes e alertas visuais.
+    *   Dashboard web interativo e responsivo para gerenciar todo o sistema.
+    *   Formulário único que alterna entre os modos de adição e edição.
+    *   Tabela de produtos com filtros, alertas visuais e botões de ação (Editar, Detalhes, Remover).
 
 ## Tecnologias Utilizadas
 
@@ -48,7 +49,7 @@ Siga os passos abaixo para configurar e executar o projeto em sua máquina:
 1.  **Clone o repositório (se aplicável):**
     ```bash
     # Se este projeto estiver em um repositório Git
-    # git clone <URL_DO_REPOSITORIO>
+    # git clone <[URL_DO_REPOSITORIO](https://github.com/RogerioMatos75/Gerenciamento-de-Estoque.git)>
     # cd sistema-de-gerenciamento-de-estoque
     ```
     *(Se você recebeu os arquivos diretamente, pule esta etapa e certifique-se de estar no diretório raiz do projeto.)*
@@ -108,37 +109,68 @@ Siga os passos abaixo para configurar e executar o projeto em sua máquina:
 Todos os endpoints retornam dados em formato JSON.
 
 *   **`GET /`**
-    *   Serve a página HTML do dashboard.
+    *   Serve a página HTML principal do dashboard.
 *   **`GET /docs`**
-    *   Documentação interativa da API (Swagger UI).
+    *   Serve a documentação interativa da API (gerada automaticamente pelo FastAPI).
 *   **`GET /produtos`**
-    *   **Descrição:** Lista todos os produtos no estoque.
-    *   **Parâmetros de Query:** `nome` (opcional, string) - Filtra produtos por nome (busca parcial, case-insensitive).
+    *   **Descrição:** Lista todos os produtos. Permite filtrar por nome e/ou categoria.
+    *   **Parâmetros de Query:**
+        *   `nome: str` (opcional) - Filtra produtos por nome (busca parcial, case-insensitive).
+        *   `categoria: str` (opcional) - Filtra produtos por categoria (busca parcial, case-insensitive).
     *   **Retorno:** `List[Produto]`
-*   **`GET /produtos/{produto_id}`**
-    *   **Descrição:** Obtém os detalhes de um produto específico.
-    *   **Parâmetros de Path:** `produto_id` (inteiro) - ID único do produto.
-    *   **Retorno:** `Produto` (ou 404 se não encontrado).
 *   **`POST /produtos`**
     *   **Descrição:** Cria um novo produto no estoque.
     *   **Corpo da Requisição:** `ProdutoCreate` (nome, categoria, preco, quantidade, estoque_minimo).
     *   **Retorno:** `Produto` (com ID gerado, status 201 Created).
+*   **`GET /produtos/baixo-estoque`**
+    *   **Descrição:** Retorna um relatório de produtos com quantidade igual ou inferior ao estoque mínimo.
+    *   **Retorno:** `List[Produto]`
+*   **`GET /produtos/{produto_id}`**
+    *   **Descrição:** Obtém os detalhes de um produto específico.
+    *   **Parâmetros de Path:** `produto_id: int`.
+    *   **Retorno:** `Produto` (ou 404 se não encontrado).
+*   **`PUT /produtos/{produto_id}`**
+    *   **Descrição:** Atualiza os dados de um produto existente.
+    *   **Parâmetros de Path:** `produto_id: int`.
+    *   **Corpo da Requisição:** `ProdutoCreate`.
+    *   **Retorno:** `Produto` (atualizado).
+*   **`DELETE /produtos/{produto_id}`**
+    *   **Descrição:** Remove um produto do estoque.
+    *   **Parâmetros de Path:** `produto_id: int`.
+    *   **Retorno:** `dict` (mensagem de sucesso).
 *   **`POST /produtos/{produto_id}/entrada`**
-    *   **Descrição:** Registra a entrada de uma quantidade de um produto no estoque.
-    *   **Parâmetros de Path:** `produto_id` (inteiro).
+    *   **Descrição:** Registra a entrada de uma quantidade de um produto.
+    *   **Parâmetros de Path:** `produto_id: int`.
     *   **Corpo da Requisição:** `EstoqueUpdate` (quantidade).
-    *   **Retorno:** `Produto` (atualizado, com `alert_message` se estoque baixo).
+    *   **Retorno:** `Produto` (atualizado).
 *   **`POST /produtos/{produto_id}/saida`**
-    *   **Descrição:** Registra a saída de uma quantidade de um produto do estoque.
-    *   **Parâmetros de Path:** `produto_id` (inteiro).
+    *   **Descrição:** Registra a saída de uma quantidade de um produto.
+    *   **Parâmetros de Path:** `produto_id: int`.
     *   **Corpo da Requisição:** `EstoqueUpdate` (quantidade).
-    *   **Retorno:** `Produto` (atualizado, com `alert_message` se estoque baixo, ou 400 se quantidade insuficiente).
+    *   **Retorno:** `Produto` (atualizado).
 
-## Próximos Passos (Funcionalidades Pendentes)
+## Checklist de Requisitos Cumpridos
 
-Para expandir este MVP, as próximas funcionalidades a serem consideradas incluem:
+Todos os requisitos do projeto foram implementados com sucesso.
 
-*   **Remover Produto:** Implementar endpoint `DELETE /produtos/{produto_id}` e integração no frontend.
-*   **Editar Produto:** Implementar endpoint `PUT /produtos/{produto_id}` e integração no frontend.
-*   **Buscar por Categoria:** Adicionar filtro por categoria no endpoint `GET /produtos`.
-*   **Relatório de Produtos com Baixo Estoque:** Criar um endpoint específico para este relatório.
+**1. Cadastro de Produtos:**
+- [x] Armazenamento de produtos com ID, nome, categoria, quantidade e preço.
+- [x] Utilização de estrutura de dados baseada em dicionários (JSON/Pydantic).
+- [x] Implementação das funcionalidades de Adicionar, Remover e Editar produtos.
+
+**2. Controle de Estoque:**
+- [x] Registro de entrada e saída de produtos.
+- [x] Atualização automática da quantidade em estoque.
+- [x] Emissão de alerta para produtos com estoque baixo.
+
+**3. Consulta de Produtos:**
+- [x] Busca de produtos por nome, categoria e ID.
+- [x] Exibição de informações detalhadas dos produtos.
+
+**4. Relatórios:**
+- [x] Relatório geral de produtos em estoque (lista principal).
+- [x] Relatório específico de produtos com baixo estoque.
+
+**5. Interface e Usabilidade:**
+- [x] Criação de um dashboard web interativo para acesso às funcionalidades.
+- [x] Validação de entradas do usuário tanto no frontend quanto no backend.

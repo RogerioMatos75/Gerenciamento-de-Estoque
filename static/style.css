@@ -126,6 +126,21 @@ header {
     background-color: #5A6268;
 }
 
+.btn-edit {
+    background-color: #ffc107; /* Amarelo para Ação de Edição */
+    color: var(--text-dark);
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-right: 4px; /* Espaçamento */
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
 .btn-entrada {
     background-color: #28A745; /* Verde */
 }
@@ -140,6 +155,62 @@ header {
 
 .btn-saida:hover {
     background-color: #C82333;
+}
+
+/* --- Formulário de Filtro --- */
+.filter-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-group {
+    flex: 1;
+}
+
+.filter-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-gray);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.filter-group input::placeholder {
+    color: #999;
+}
+
+/* --- Ações de Relatório --- */
+.report-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-report {
+    background-color: #17A2B8; /* Ciano para relatórios */
+    color: white;
+    width: auto; /* Largura automática */
+    flex-grow: 0;
+}
+
+.btn-report:hover {
+    background-color: #138496;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-gray);
+    color: white;
+    width: auto;
+    flex-grow: 0;
+}
+
+.btn-secondary:hover {
+    background-color: #5A6268;
+}
+
+.hidden {
+    display: none;
 }
 
 
