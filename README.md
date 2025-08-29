@@ -17,6 +17,7 @@ Este projeto é um Sistema de Gerenciamento de Estoque simplificado, desenvolvid
     *   Busca dinâmica e em tempo real por **nome** e/ou **categoria**.
     *   Obtenção de detalhes de um produto específico.
     *   **Relatório** dedicado para produtos com baixo estoque.
+    *   **Exportação para PDF:** Gera e disponibiliza para download um relatório completo do estoque.
 *   **Persistência de Dados:**
     *   Os dados são salvos e carregados a partir de um arquivo `estoque.json`, garantindo a persistência entre as sessões.
 *   **Interface de Usuário (Dashboard):**
@@ -125,6 +126,9 @@ Todos os endpoints retornam dados em formato JSON.
 *   **`GET /produtos/baixo-estoque`**
     *   **Descrição:** Retorna um relatório de produtos com quantidade igual ou inferior ao estoque mínimo.
     *   **Retorno:** `List[Produto]`
+*   **`GET /produtos/relatorio-pdf`**
+    *   **Descrição:** Gera um relatório completo do estoque em formato PDF para download.
+    *   **Retorno:** `FileResponse` (application/pdf)
 *   **`GET /produtos/{produto_id}`**
     *   **Descrição:** Obtém os detalhes de um produto específico.
     *   **Parâmetros de Path:** `produto_id: int`.
@@ -170,30 +174,13 @@ Todos os requisitos do projeto foram implementados com sucesso.
 **4. Relatórios:**
 - [x] Relatório geral de produtos em estoque (lista principal).
 - [x] Relatório específico de produtos com baixo estoque.
+- [x] **Exportação de relatório completo em formato PDF.**
 
 **5. Interface e Usabilidade:**
 - [x] Criação de um dashboard web interativo para acesso às funcionalidades.
 - [x] Validação de entradas do usuário tanto no frontend quanto no backend.
 
-## Checklist de Requisitos a Melhorias. Agora, temos as seguintes opções para finalizar o projeto:
+## Melhoria Implementada
 
-   1. Implementar o botão "Atualizar Lista": Adicionar a funcionalidade que você sugeriu para atualizar a lista de produtos no
-      dashboard.
-   2. Atualizar o `requirements.txt`: Garantir que o arquivo de dependências contenha apenas o necessário e as versões exatas das
-      bibliotecas.
-   3. Considerar o projeto concluído: Se você estiver satisfeito com o estado atual do projeto.
-
-
-  
-  Mensagem de Commit Sugerida:
-
-   1 feat: Implementação completa do sistema de gerenciamento de estoque
-   2
-   3 Este commit finaliza a implementação das funcionalidades principais do sistema de gerenciamento de estoque,
-     incluindo:
-   4 - Correção de inicialização do servidor.
-   5 - Funcionalidade de exclusão de produtos.
-   6 - Funcionalidade de edição de produtos.
-   7 - Filtro de produtos por nome e categoria.
-   8 - Relatório de produtos com baixo estoque.
-   9 - Atualização completa da documentação no README.md (funcionalidades e endpoints da API).
+*   **Exportar para PDF:** Foi implementada a funcionalidade que permite aos usuários exportar a lista completa de produtos em formato PDF, facilitando a impressão e o compartilhamento de relatórios.
+   

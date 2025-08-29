@@ -2,9 +2,12 @@ import json
 import os
 from typing import List, Optional
 
+from datetime import datetime
+
 from fastapi import FastAPI, HTTPException, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
+from fpdf import FPDF
 from pydantic import BaseModel, Field
 
 # --- Configuração da API ---
@@ -136,15 +139,7 @@ def relatorio_baixo_estoque() -> List[Produto]:
     return produtos_baixo_estoque
 
 
-@app.get("/produtos/{produto_id}", response_model=Produto, tags=["Produtos"])
-def obter_produto(produto_id: int) -> Produto:
-    """Obtém os detalhes de um produto específico."""
-    produto = encontrar_produto_por_id(produto_id)
-    if not produto:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Produto não encontrado")
-    
-    verificar_alerta_estoque(produto)
-    return produto
+
 
 
 @app.post("/produtos", response_model=Produto, status_code=status.HTTP_201_CREATED, tags=["Produtos"])
@@ -215,4 +210,77 @@ def atualizar_produto(produto_id: int, produto_data: ProdutoCreate) -> Produto:
 
     verificar_alerta_estoque(produto)
     salvar_estoque(estoque)
+    return produto
+
+
+# --- PDF Generation ---
+class PDF(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 12)
+        self.cell(0, 10, 'Relatório de Estoque', 0, 1, 'C')
+        # Adiciona data e hora da emissão
+        agora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.set_font('Arial', '', 8)
+        self.cell(0, 10, f'Gerado em: {agora}', 0, 1, 'C')
+        self.ln(5)
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font('Arial', 'I', 8)
+        self.cell(0, 10, f'Página {self.page_no()}/{{nb}}', 0, 0, 'C')
+
+@app.get("/produtos/relatorio-pdf", tags=["Relatórios"])
+def gerar_relatorio_pdf():
+    """
+    Gera um relatório completo do estoque em formato PDF e o disponibiliza para download.
+    """
+    pdf = PDF()
+    pdf.alias_nb_pages()
+    pdf.add_page()
+    pdf.set_font('Arial', '', 10)
+
+    # Cabeçalho da Tabela
+    col_widths = [15, 70, 40, 30, 25]
+    headers = ['ID', 'Nome', 'Categoria', 'Preço (R$)', 'Qtd']
+    pdf.set_font('Arial', 'B', 10)
+    for i, header in enumerate(headers):
+        pdf.cell(col_widths[i], 10, header, 1, 0, 'C')
+    pdf.ln()
+
+    # Dados da Tabela
+    pdf.set_font('Arial', '', 10)
+    if not estoque:
+        pdf.cell(sum(col_widths), 10, 'Nenhum produto em estoque', 1, 1, 'C')
+    else:
+        for produto in estoque:
+            # Trata caracteres especiais que não são compatíveis com latin-1
+            nome = produto.nome.encode('latin-1', 'replace').decode('latin-1')
+            categoria = produto.categoria.encode('latin-1', 'replace').decode('latin-1')
+            
+            pdf.cell(col_widths[0], 10, str(produto.id), 1, 0, 'C')
+            pdf.cell(col_widths[1], 10, nome, 1, 0)
+            pdf.cell(col_widths[2], 10, categoria, 1, 0)
+            pdf.cell(col_widths[3], 10, f'{produto.preco:.2f}', 1, 0, 'R')
+            pdf.cell(col_widths[4], 10, str(produto.quantidade), 1, 0, 'C')
+            pdf.ln()
+
+    # Gera o PDF em memória como uma string de bytes
+    pdf_bytes = bytes(pdf.output())
+
+    # Cria o cabeçalho para forçar o download
+    headers = {
+        'Content-Disposition': 'attachment; filename="relatorio_estoque.pdf"'
+    }
+
+    return Response(content=pdf_bytes, media_type='application/pdf', headers=headers)
+
+
+@app.get("/produtos/{produto_id}", response_model=Produto, tags=["Produtos"])
+def obter_produto(produto_id: int) -> Produto:
+    """Obtém os detalhes de um produto específico."""
+    produto = encontrar_produto_por_id(produto_id)
+    if not produto:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Produto não encontrado")
+    
+    verificar_alerta_estoque(produto)
     return produto

@@ -5,8 +5,9 @@
 __pycache__/
 *.pyc
 
-# Application Data
-/estoque.json
-
 # Gemini CLI settings
 .gemini/
+
+# Generated artifacts and session files
+/output/
+GEMINI.md
