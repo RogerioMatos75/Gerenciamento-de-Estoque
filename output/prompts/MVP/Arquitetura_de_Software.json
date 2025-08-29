@@ -1,4 +1,0 @@
-{
-  "positivo": "\"Use arquitetura flexível, monolítica se necessário. Permita mudanças rápidas.\"",
-  "negativo": "\"Não gaste tempo em soluções escaláveis demais ou arquitetura para o futuro.\""
-}
