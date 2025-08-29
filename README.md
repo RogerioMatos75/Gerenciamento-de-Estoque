@@ -174,3 +174,26 @@ Todos os requisitos do projeto foram implementados com sucesso.
 **5. Interface e Usabilidade:**
 - [x] Criação de um dashboard web interativo para acesso às funcionalidades.
 - [x] Validação de entradas do usuário tanto no frontend quanto no backend.
+
+## Checklist de Requisitos a Melhorias. Agora, temos as seguintes opções para finalizar o projeto:
+
+   1. Implementar o botão "Atualizar Lista": Adicionar a funcionalidade que você sugeriu para atualizar a lista de produtos no
+      dashboard.
+   2. Atualizar o `requirements.txt`: Garantir que o arquivo de dependências contenha apenas o necessário e as versões exatas das
+      bibliotecas.
+   3. Considerar o projeto concluído: Se você estiver satisfeito com o estado atual do projeto.
+
+
+  
+  Mensagem de Commit Sugerida:
+
+   1 feat: Implementação completa do sistema de gerenciamento de estoque
+   2
+   3 Este commit finaliza a implementação das funcionalidades principais do sistema de gerenciamento de estoque,
+     incluindo:
+   4 - Correção de inicialização do servidor.
+   5 - Funcionalidade de exclusão de produtos.
+   6 - Funcionalidade de edição de produtos.
+   7 - Filtro de produtos por nome e categoria.
+   8 - Relatório de produtos com baixo estoque.
+   9 - Atualização completa da documentação no README.md (funcionalidades e endpoints da API).

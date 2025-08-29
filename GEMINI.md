@@ -3,14 +3,14 @@ Get-Content GEMINI.md | gemini --ide-mode
 # Roteiro de Execução para o Agente
 
 ## Projeto: **projetos/sistema-de-gerenciamento-de-estoque/**
-## Etapa Atual: **`06_Testes_e_validação.md`**
+## Etapa Atual: **`00_ui_definition_prompt.md`**
 
 ### Missão do Agente
 Sua missão é continuar o desenvolvimento deste projeto com base nos artefatos gerados pelo Archon AI.
 
 ### Instruções Imediatas:
 1.  **Analise o Artefato Principal:**
-    *   O artefato gerado para esta etapa é: **`artefatos/06_Testes_e_validação.md`**.
+    *   O artefato gerado para esta etapa é: **`artefatos/00_ui_definition_prompt.md`**.
     *   Leia e compreenda completamente o conteúdo deste arquivo. Ele contém a especificação ou o código que você deve usar como base.
 2.  **Execute as Ações Necessárias:**
     *   Com base na análise, crie ou modifique os arquivos do projeto.
